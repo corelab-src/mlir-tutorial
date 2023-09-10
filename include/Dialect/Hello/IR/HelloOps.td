@@ -33,7 +33,7 @@ def Hello_Dialect : Dialect {
 def AddSignOp : Op<Hello_Dialect, "addsign", [NoSideEffect, SameOperandsShape, SameOperandsAndResultShape]> {
   let summary = "element-wise addition operation";
   let description = [{
-    The "add" operation performs element-wise addition between two tensors.
+    The "addsign" operation performs element-wise addition or subtraction.
       The shapes of the tensor operands are expected to match.
   }];
 
