@@ -31,6 +31,8 @@
 
 #include "Pass/Passes.h"
 
+#include "Conversion/ToyToHello/ToyToHello.h"
+#include "Dialect/Hello/IR/HelloOps.hpp"
 #include "Dialect/Toy/IR/ToyOps.hpp"
 #include "mlir/Dialect/Func/IR/FuncOps.h"
 
@@ -60,6 +62,7 @@ void initPasses()
 int main(int argc, char** argv)
 {
   mlir::DialectRegistry registry;
+  registry.insert<mlir::HelloDialect>();
   registry.insert<mlir::ToyDialect>();
   registry.insert<mlir::func::FuncDialect>();
   initPasses();
