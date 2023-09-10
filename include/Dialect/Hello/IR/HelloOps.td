@@ -30,7 +30,7 @@ def Hello_Dialect : Dialect {
 //  Hello operations definition.
 //===----------------------------------------------------------------------===//
 
-def AddSignOp : Op<Hello_Dialect, "add", [NoSideEffect, SameOperandsShape, SameOperandsAndResultShape]> {
+def AddSignOp : Op<Hello_Dialect, "addsign", [NoSideEffect, SameOperandsShape, SameOperandsAndResultShape]> {
   let summary = "element-wise addition operation";
   let description = [{
     The "add" operation performs element-wise addition between two tensors.
