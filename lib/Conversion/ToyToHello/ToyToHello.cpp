@@ -71,7 +71,13 @@ struct ToyAddOpToHello : public mlir::ConversionPattern {
   LogicalResult matchAndRewrite(mlir::Operation* op, mlir::ArrayRef<Value> operands,
       mlir::ConversionPatternRewriter& rewriter) const final
   {
-    // Do Somthing
+    auto loc = op->getLoc();
+
+    auto lhs = op->getOperand(0);
+    auto rhs = op->getOperand(1);
+    auto addSignOp = rewriter.create<AddSignOp>(loc, lhs.getType(), lhs, rhs, rewriter.getI32IntegerAttr(0));
+
+    rewriter.replaceOp(op, addSignOp->getResult(0));
     return success();
   }
 };
@@ -80,6 +86,36 @@ void mlir::populateLoweringToyAddOpToHelloPatterns(
     RewritePatternSet& patterns, MLIRContext* context)
 {
   patterns.insert<ToyAddOpToHello>(context);
+}
+//===----------------------------------------------------------------------===//
+
+//===----------------------------------------------------------------------===//
+// SubOp
+//===----------------------------------------------------------------------===//
+struct ToySubOpToHello : public mlir::ConversionPattern {
+  ToySubOpToHello(MLIRContext* context)
+    : ConversionPattern(mlir::SubOp::getOperationName(), 1, context)
+  {
+  }
+
+  LogicalResult matchAndRewrite(mlir::Operation* op, mlir::ArrayRef<Value> operands,
+      mlir::ConversionPatternRewriter& rewriter) const final
+  {
+    auto loc = op->getLoc();
+
+    auto lhs = op->getOperand(0);
+    auto rhs = op->getOperand(1);
+    auto addSignOp = rewriter.create<AddSignOp>(loc, lhs.getType(), lhs, rhs, rewriter.getI32IntegerAttr(1));
+
+    rewriter.replaceOp(op, addSignOp->getResult(0));
+    return success();
+  }
+};
+
+void mlir::populateLoweringToySubOpToHelloPatterns(
+    RewritePatternSet& patterns, MLIRContext* context)
+{
+  patterns.insert<ToySubOpToHello>(context);
 }
 //===----------------------------------------------------------------------===//
 
@@ -111,13 +147,13 @@ void ConvertToyToHelloPass::runOnOperation()
   target.addLegalDialect<HelloDialect>();
 
   target.addLegalOp<ToyReturnOp>();
-  target.addLegalOp<AddOp>();
+  // target.addLegalOp<AddOp>();
 
   RewritePatternSet patterns(&getContext());
 
   // ----------- Adding Patterns for Lowering Pass ----------- //
-  populateLoweringToyPrintOpToHelloPatterns(patterns, &getContext());
   populateLoweringToyAddOpToHelloPatterns(patterns, &getContext());
+  populateLoweringToySubOpToHelloPatterns(patterns, &getContext());
   // --------------------------------------------------------- //
   if (mlir::failed(applyPartialConversion(module, target, std::move(patterns)))) {
     signalPassFailure();

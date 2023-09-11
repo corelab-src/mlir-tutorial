@@ -23,6 +23,7 @@ template <typename T>
 class OperationPass;
 
 std::unique_ptr<Pass> createRemoveRedundantAddSubPass();
+std::unique_ptr<Pass> createCreateSubOpPass();
 std::unique_ptr<Pass> createConvertToyToHelloPass();
 
 } // end namespace mlir

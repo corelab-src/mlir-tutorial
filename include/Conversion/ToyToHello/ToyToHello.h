@@ -14,9 +14,9 @@ class OperationPass;
 class RewritePatternSet;
 
 /// Populate the given list with patterns that convert from Toy to Hello.
-void populateLoweringToyPrintOpToHelloPatterns(
-    RewritePatternSet &patterns, MLIRContext *context);
 void populateLoweringToyAddOpToHelloPatterns(
+    RewritePatternSet& patterns, MLIRContext* context);
+void populateLoweringToySubOpToHelloPatterns(
     RewritePatternSet& patterns, MLIRContext* context);
 
 } // namespace mlir

@@ -53,10 +53,14 @@ void initPasses()
     []() -> std::unique_ptr<mlir::Pass> {
       return mlir::createRemoveRedundantAddSubPass();
   });
-  // mlir::registerPass(
-  //   []() -> std::unique_ptr<mlir::Pass> {
-  //     // Add another Passes
-  // });
+  mlir::registerPass(
+    []() -> std::unique_ptr<mlir::Pass> {
+      return mlir::createCreateSubOpPass();
+  });
+  mlir::registerPass(
+    []() -> std::unique_ptr<mlir::Pass> {
+      return mlir::createConvertToyToHelloPass();
+  });
 }
 
 int main(int argc, char** argv)
